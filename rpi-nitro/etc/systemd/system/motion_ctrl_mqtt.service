@@ -1,0 +1,7 @@
+[Service]
+ExecStart=/usr/bin/python /srv/mqtt/motion_ctrl_mqtt.py
+Requires=motion.service
+After=motion.service
+
+[Install]
+WantedBy=multi-user.target

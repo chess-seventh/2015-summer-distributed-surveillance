@@ -1,0 +1,20 @@
+{
+    "name": "summer-2015",
+    "version": "1.0.0",
+    "dependencies": {
+        "express": "*",
+        "mysql": "*"
+    },
+    "devDependencies": {
+        "bower": "*",
+        "grunt": "*",
+        "grunt-cli": "*",
+        "grunt-contrib-clean": "*",
+        "grunt-contrib-copy": "*",
+        "grunt-contrib-less": "*",
+        "grunt-contrib-coffee": "*",
+        "grunt-contrib-jade": "*",
+        "grunt-angular-templates": "*",
+        "grunt-contrib-watch": "*"
+    }
+}

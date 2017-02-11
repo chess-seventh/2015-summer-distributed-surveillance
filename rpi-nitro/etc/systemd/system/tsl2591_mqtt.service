@@ -1,0 +1,5 @@
+[Service]
+ExecStart=/usr/bin/python /srv/mqtt/tsl2591_mqtt.py
+
+[Install]
+WantedBy=multi-user.target

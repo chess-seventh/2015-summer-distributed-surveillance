@@ -1,0 +1,13 @@
+{
+  "name": "summer-2015",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "*",
+    "fontawesome": "*",
+    "moment": "*",
+    "jquery": "~2",
+    "angular": "~1.4",
+    "angular-bootstrap": "*",
+    "amcharts": "*"
+  }
+}

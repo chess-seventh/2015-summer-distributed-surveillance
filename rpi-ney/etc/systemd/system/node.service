@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/usr/bin/node /srv/node/src/server.js
+Requires=mysqld.service
+After=mysqld.service
+[Install]
+WantedBy=multi-user.target

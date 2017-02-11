@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/usr/bin/python /srv/mqtt/ctrl_mqtt.py
+Requires=mosquitto.service
+After=mosquitto.service
+[Install]
+WantedBy=multi-user.target

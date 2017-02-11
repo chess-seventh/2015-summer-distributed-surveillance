@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Video Surveillance Monitor</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/app.css">
+  </head>
+  <body ng-app="app">
+    <div class="row">
+      <div ng-controller="CameraController as ctrl" class="col-sm-6">
+        <!-- the alert table-->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Alerts</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th width="200">Video</th>
+                  <th width="200">From</th>
+                  <th width="200">To</th>
+                  <th>Device</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="ctrl.rows.length == 0">
+                  <td colspan="4">No alert yet.</td>
+                </tr>
+                <tr ng-repeat="row in ctrl.rows">
+                  <td width="200" class="text-center"><a href="javascript:" ng-click="ctrl.showVideo(row)"><img style="width: 100%;" ng-src="http://rpi-nitro/{{row.video_key}}.jpg" ng-if="row.stopped_at"><span ng-if="!row.stopped_at" class="fa fa-play"></span></a></td>
+                  <td width="200">{{row.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                  <td width="200"><span ng-if="row.stopped_at">{{row.stopped_at | date:'yyyy-MM-dd HH:mm:ss'}}</span><span ng-if="!row.stopped_at">{{ctrl.currentTime | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
+                  <td>{{row.device.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div ng-controller="ChartController as ctrl" class="col-sm-6">
+        <!-- the chart-->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Measurements</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Device</label>
+              <select ng-model="ctrl.currentDevice" ng-options="device.name for device in ctrl.devices" class="form-control">
+                <option value="">select...</option>
+              </select>
+            </div>
+            <div ng-show="ctrl.currentDevice.sensors.length &gt; 0" class="form-group">
+              <label>Sensor</label>
+              <select ng-model="ctrl.currentSensor" ng-options="sensor.name for sensor in ctrl.currentDevice.sensors" class="form-control">
+                <option value="">select...</option>
+              </select>
+            </div>
+            <p ng-if="ctrl.rows.length == 0 &amp;&amp; !ctrl.loading">Select a device/sensor above.</p>
+            <p ng-if="ctrl.rows.length == 0 &amp;&amp; ctrl.loading"><span class="fa fa-refresh fa-spin"></span></p>
+            <chart ng-if="ctrl.rows.length &gt; 0" data="ctrl.rows"></chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="javascripts/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="javascripts/amcharts/amcharts.js"></script>
+    <script type="text/javascript" src="javascripts/amcharts/serial.js"></script>
+    <script type="text/javascript" src="javascripts/app.js"></script>
+  </body>
+</html>

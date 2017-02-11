@@ -1,0 +1,69 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+    title Video Surveillance Monitor
+
+    if livereload
+      script(type='text/javascript', src='//localhost:35729/livereload.js')
+
+    link(rel='stylesheet', type='text/css', href='stylesheets/font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/app.css')
+
+  body(ng-app='app')
+    .row
+      .col-sm-6(ng-controller='CameraController as ctrl')
+        // the alert table
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Alerts
+          .panel-body
+            table.table.table-condensed
+              thead
+                tr
+                  th(width='200') Video
+                  th(width='200') From
+                  th(width='200') To
+                  th Device
+              tbody
+                tr(ng-if='ctrl.rows.length == 0')
+                  td(colspan=4) No alert yet.
+                tr(ng-repeat='row in ctrl.rows')
+                  td.text-center(width='200')
+                    a(href='javascript:', ng-click='ctrl.showVideo(row)')
+                      img(style='width: 100%;', ng-src='http://rpi-nitro/{{row.video_key}}.jpg', ng-if='row.stopped_at')
+                      span.fa.fa-play(ng-if='!row.stopped_at')
+                  td(width='200') {{row.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                  td(width='200')
+                    span(ng-if='row.stopped_at') {{row.stopped_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                    span(ng-if='!row.stopped_at') {{ctrl.currentTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                  td {{row.device.name}}
+      .col-sm-6(ng-controller='ChartController as ctrl')
+        // the chart
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Measurements
+          .panel-body
+            .form-group
+              label Device
+              select.form-control(ng-model='ctrl.currentDevice', ng-options='device.name for device in ctrl.devices')
+                option(value='') select...
+            .form-group(ng-show='ctrl.currentDevice.sensors.length > 0')
+              label Sensor
+              select.form-control(ng-model='ctrl.currentSensor', ng-options='sensor.name for sensor in ctrl.currentDevice.sensors')
+                option(value='') select...
+            p(ng-if='ctrl.rows.length == 0 && !ctrl.loading') Select a device/sensor above.
+            p(ng-if='ctrl.rows.length == 0 && ctrl.loading')
+              span.fa.fa-refresh.fa-spin
+            chart(ng-if='ctrl.rows.length > 0', data='ctrl.rows')
+
+    script(type='text/javascript', src='javascripts/moment-with-locales.min.js')
+    script(type='text/javascript', src='javascripts/jquery.min.js')
+    script(type='text/javascript', src='javascripts/angular.min.js')
+    script(type='text/javascript', src='javascripts/ui-bootstrap-tpls.min.js')
+    script(type='text/javascript', src='javascripts/amcharts/amcharts.js')
+    script(type='text/javascript', src='javascripts/amcharts/serial.js')
+    script(type='text/javascript', src='javascripts/app.js')

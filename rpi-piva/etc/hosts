@@ -1,0 +1,13 @@
+#
+# /etc/hosts: static lookup table for host names
+#
+
+#<ip-address>	<hostname.domain.org>	<hostname>
+127.0.0.1	localhost.localdomain	localhost
+::1		localhost.localdomain	localhost
+
+192.168.1.101   rpi-nitro
+192.168.1.102   rpi-ney
+192.168.1.103   rpi-piva
+
+# End of file
